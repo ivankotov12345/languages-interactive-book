@@ -1,7 +1,7 @@
 import express from 'express';
 
-const PORT = 3000;
-const MESSAGE = `server running on port ${PORT}`
+const PORT = 3001;
+const MESSAGE = `server running on port ${PORT}`;
 
 const app = express();
 
@@ -15,5 +15,5 @@ app.get('/api/health', (req, res) => {
 })
 
 app.listen(PORT, () => {
-    console.log(MESSAGE)
+    console.log(MESSAGE);
 });

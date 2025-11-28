@@ -8,6 +8,7 @@
     "dev:api": "turbo run dev --filter=api",
     "dev:all": "turbo run dev --parallel",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
