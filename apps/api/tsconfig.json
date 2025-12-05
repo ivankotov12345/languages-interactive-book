@@ -2,9 +2,20 @@
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
     "lib": ["ES2015"],
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "paths": {
+      "#root/*": ["./src/*"],
+      "#constants/*": ["./src/constants/index.ts"],
+      "#models/*": ["./src/models/*"],
+      "#routes/*": ["./src/routes/*"],
+      "#controllers/*": ["./src/controllers/*"]
+    },
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src"]
+  "include": ["src/**/*"]
 }

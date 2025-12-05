@@ -20,5 +20,8 @@
   "packageManager": "pnpm@10.24.0",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "types": "link:../../../../AppData/Local/pnpm/global/5/node_modules/@repo/types"
   }
 }

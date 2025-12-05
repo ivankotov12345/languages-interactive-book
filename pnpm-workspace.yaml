@@ -1,3 +1,6 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - apps/*
+  - packages/*
+
+overrides:
+  types: link:../../../../AppData/Local/pnpm/global/5/node_modules/@repo/types
