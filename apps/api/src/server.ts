@@ -16,6 +16,13 @@ const MESSAGE = `server running on port ${PORT}`;
 
 const app = express();
 
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+    console.log('Headers:', JSON.stringify(req.headers, null, 2));
+    console.log('Body:', req.body);
+    next();
+});
+
 app.use(express.json());
 
 app.use(helmet());

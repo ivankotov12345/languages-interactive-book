@@ -22,6 +22,6 @@
     "node": ">=18"
   },
   "dependencies": {
-    "types": "link:../../../../AppData/Local/pnpm/global/5/node_modules/@repo/types"
+    "date-fns": "^4.1.0"
   }
 }

@@ -1,13 +1,16 @@
-export type UserInfo = {
-    email: string;
-    login: string;
-    firstName: string;
-    lastName: string;
+export type User = {
+  id: string;
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  createdAt: Date;
 };
 
-export type UserRequest = UserInfo & { password: string };
+export type UserRequest = Omit<User, 'id' | 'createdAt'> & {
+  password: string;
+};
 
-export type UserData = UserInfo & {
-    id: string;
-    createdAt: Date;
+export type UserServer = User & {
+  passwordHash: string;
 };
