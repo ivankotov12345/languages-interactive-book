@@ -13,7 +13,8 @@
       "#constants/*": ["./src/constants/index.ts"],
       "#models/*": ["./src/models/*"],
       "#routes/*": ["./src/routes/*"],
-      "#controllers/*": ["./src/controllers/*"]
+      "#controllers/*": ["./src/controllers/*"],
+      "#middleware/*": ["./src/middleware/*"],
     },
   },
   "exclude": ["node_modules", "dist"],

@@ -7,9 +7,12 @@ export type User = {
   createdAt: Date;
 };
 
-export type UserRequest = Omit<User, 'id' | 'createdAt'> & {
-  password: string;
-};
+type UserBase = Omit<User, 'id' | 'createdAt'>;
+
+export type UserWithPassword<T extends 'password' | 'passwordHash'> = UserBase
+  & (T extends 'password'
+      ? { password: string }
+      : { passwordHash: string });
 
 export type UserServer = User & {
   passwordHash: string;

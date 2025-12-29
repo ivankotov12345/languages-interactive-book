@@ -1,31 +1,26 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { UserRequest } from '@repo/types';
+import { UserWithPassword } from '@repo/types';
 
 import { StatusCodes, ServerMessages } from '#constants';
-import { userModel } from '#models/user-model';
 import { authService } from '#root/services/auth-service';
 
 class AuthController {
-    register = async (req: Request<UserRequest>, res: Response, next: NextFunction) => {
-        try {
-            const { ...userData } = req.body;
+    register = async (req: Request<UserWithPassword<'password'>>, res: Response) => {
+        const { ...userData }: UserWithPassword<'password'> = req.body;
 
-            await userModel.createUser(userData);
+        await authService.register(userData);
 
-            return res
-                .status(StatusCodes.CREATED)
-                .json({
-                    statusCode: res.statusCode,
-                    message: ServerMessages.REGISTRATION_SUCCESS,
-                    data: userData,
-                });
-        } catch(err) {
-            next(err);
-        }
+        res
+            .status(StatusCodes.CREATED)
+            .json({
+                statusCode: res.statusCode,
+                message: ServerMessages.REGISTRATION_SUCCESS,
+                data: userData,
+            });
     };
 
-    login = async (req: Request<UserRequest>, res: Response, next: NextFunction) => {
+    login = async (req: Request<UserWithPassword<'password'>>, res: Response, next: NextFunction) => {
         try {
             const { email: requestEmail, password } = req.body;
             const deviceInfo = req.headers['user-agent'];

@@ -1,22 +1,36 @@
+import bcrypt from 'bcryptjs';
 import { addDays } from 'date-fns';
+import createError from 'http-errors';
 
-import { UserServer } from '@repo/types';
+import { UserServer, UserWithPassword } from '@repo/types';
 
-import { ServerMessages } from '#constants';
+import { ServerMessages, StatusCodes } from '#constants';
 import { ACCES_TOKEN_EXPIRING, REFRESH_TOKEN_EXPIRING } from '#root/constants/token';
 import { refreshTokenModel } from '#root/models/refresh-token-model';
 import { userModel } from '#root/models/user-model';
 import { generateToken } from '#root/utils/token';
 
+
+
 class AuthService {
+    register = async ({email, username, firstName, lastName, password}: UserWithPassword<'password'>) => {
+        const isEmailExists = await userModel.findByEmail(email);
+        const isUsernameExists = await userModel.findByUsername(username);
+
+        if (isEmailExists || isUsernameExists) throw createError(StatusCodes.CONFLICT, ServerMessages.USER_EXISTS);
+
+        const salt = bcrypt.genSaltSync(10);
+        const passwordHash = await bcrypt.hash(password, salt);
+
+        return await userModel.createUser({ email, username, firstName, lastName, passwordHash });
+    };
+
     login = async (requestEmail: string, password: string, deviceInfo?: string, ip?: string) => {
         const { id: userId, email, username, passwordHash }: UserServer = await userModel.findByEmail(requestEmail);
 
-        if (!userId) throw new Error(ServerMessages.INCORRECT_USER_DATA);
-
         const isPasswordValid = await userModel.verifyPassword(password, passwordHash);
 
-        if (!isPasswordValid) throw new Error(ServerMessages.INCORRECT_USER_DATA);
+        if (!userId || !isPasswordValid) throw createError(StatusCodes.UNAUTHORIZED, ServerMessages.INCORRECT_USER_DATA);
 
         const accessToken = generateToken(
             { userId: userId, email: email, username: username, tokenType: 'access' },
