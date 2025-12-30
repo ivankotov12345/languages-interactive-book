@@ -1,12 +1,18 @@
 import pgPromise from 'pg-promise';
 import 'dotenv/config';
-import { IClient, IConnectionParameters } from 'pg-promise/typescript/pg-subset';
+import {
+    IClient,
+    IConnectionParameters,
+} from 'pg-promise/typescript/pg-subset';
 
 export const pgp = pgPromise({
     capSQL: true,
 });
 
-export const dbConfig: Record<string, string | number | IConnectionParameters<IClient>> = {
+export const dbConfig: Record<
+    string,
+    string | number | IConnectionParameters<IClient>
+> = {
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || '5432',
     database: process.env.DB_NAME || 'languages-interactive-book',

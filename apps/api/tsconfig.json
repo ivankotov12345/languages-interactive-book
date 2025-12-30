@@ -1,22 +1,22 @@
 {
-  "extends": "@repo/typescript-config/base.json",
-  "compilerOptions": {
-    "lib": ["ES2015"],
-    "module": "preserve",
-    "moduleResolution": "bundler",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "paths": {
-      "#root/*": ["./src/*"],
-      "#constants/*": ["./src/constants/index.ts"],
-      "#models/*": ["./src/models/*"],
-      "#routes/*": ["./src/routes/*"],
-      "#controllers/*": ["./src/controllers/*"],
-      "#middleware/*": ["./src/middleware/*"],
+    "extends": "@repo/typescript-config/base.json",
+    "compilerOptions": {
+        "lib": ["ES2015"],
+        "module": "preserve",
+        "moduleResolution": "bundler",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "paths": {
+            "#root/*": ["./src/*"],
+            "#constants/*": ["./src/constants/index.ts"],
+            "#models/*": ["./src/models/*"],
+            "#routes/*": ["./src/routes/*"],
+            "#controllers/*": ["./src/controllers/*"],
+            "#middleware/*": ["./src/middleware/*"]
+        }
     },
-  },
-  "exclude": ["node_modules", "dist"],
-  "include": ["src/**/*"]
+    "exclude": ["node_modules", "dist"],
+    "include": ["src/**/*"]
 }
