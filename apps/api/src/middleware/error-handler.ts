@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { HttpError } from 'http-errors';
+import createError, { HttpError } from 'http-errors';
 
 import { ServerMessages, StatusCodes } from '#constants';
 
@@ -7,7 +7,7 @@ export const errorHandler = (
     err: HttpError,
     _req: Request,
     res: Response,
-    _next: NextFunction,
+    _next: NextFunction
 ) => {
     const statusCode: number =
         err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
@@ -20,4 +20,13 @@ export const errorHandler = (
         message: errorMessage,
         stack: errorStack,
     });
+};
+
+export const notFoundHandler = (
+    _req: Request,
+    _res: Response,
+    next: NextFunction
+) => {
+    const error = createError(StatusCodes.NOT_FOUND, ServerMessages.NOT_FOUND);
+    next(error);
 };

@@ -6,7 +6,7 @@ import express from 'express';
 import helmet from 'helmet';
 
 import { RouterPaths } from '#constants';
-import { errorHandler } from '#middleware/error-handler';
+import { errorHandler, notFoundHandler } from '#middleware/error-handler';
 import { authRouter } from '#routes/auth-routes';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
@@ -26,7 +26,7 @@ app.use(
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
         allowedHeaders: ['Content-Type'],
-    }),
+    })
 );
 
 app.get(RouterPaths.HEALTH, (_, res) => {
@@ -40,6 +40,7 @@ app.get(RouterPaths.HEALTH, (_, res) => {
 app.use(RouterPaths.AUTH, authRouter);
 
 app.use(errorHandler);
+app.use(notFoundHandler);
 
 app.listen(PORT, () => {
     console.log(MESSAGE);
