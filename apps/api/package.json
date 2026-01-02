@@ -26,15 +26,16 @@
         "helmet": "^8.1.0",
         "http-errors": "^2.0.1",
         "jsonwebtoken": "^9.0.2",
+        "node-cron": "^4.2.1",
         "pg-promise": "^12.3.0"
     },
     "devDependencies": {
         "@repo/eslint-config": "workspace:*",
-        "@types/http-errors": "^2.0.5",
         "@repo/types": "workspace:*",
         "@repo/typescript-config": "workspace:*",
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.5",
+        "@types/http-errors": "^2.0.5",
         "@types/jsonwebtoken": "^9.0.10",
         "@types/node": "^22.15.3",
         "eslint": "^9.39.1",

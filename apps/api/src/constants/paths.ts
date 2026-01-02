@@ -3,4 +3,5 @@ export enum RouterPaths {
     AUTH = '/api/auth',
     REGISTER = '/register',
     LOGIN = '/login',
+    LOGOUT = '/logout',
 }

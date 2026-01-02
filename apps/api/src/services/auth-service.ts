@@ -11,7 +11,7 @@ import {
 } from '#root/constants/token';
 import { refreshTokenModel } from '#root/models/refresh-token-model';
 import { userModel } from '#root/models/user-model';
-import { generateToken } from '#root/utils/token';
+import { createTokenHash, generateToken } from '#root/utils/token';
 
 class AuthService {
     register = async ({
@@ -30,7 +30,7 @@ class AuthService {
         const salt = bcrypt.genSaltSync(10);
         const passwordHash = await bcrypt.hash(password, salt);
 
-        return await userModel.createUser({
+        await userModel.createUser({
             email,
             username,
             firstName,
@@ -85,11 +85,13 @@ class AuthService {
             REFRESH_TOKEN_EXPIRING,
         );
 
+        const refreshTokenHash = createTokenHash(refreshToken);
+
         const expiresAt = addDays(new Date(), 7);
 
         await refreshTokenModel.create({
             userId: userId,
-            token: refreshToken,
+            tokenHash: refreshTokenHash,
             userAgent: deviceInfo,
             ipAddress: ip,
             expiresAt: expiresAt,
@@ -104,6 +106,15 @@ class AuthService {
             accessToken,
             refreshToken,
         };
+    };
+
+    logout = async (userId: string, token?: string) => {
+        if (token) {
+            const tokenHash = createTokenHash(token);
+            await refreshTokenModel.revokeToken(tokenHash);
+        } else {
+            await refreshTokenModel.revokeUserTokens(userId);
+        }
     };
 }
 

@@ -1,21 +1,14 @@
-import crypto from 'crypto';
-
 import { db } from '#root/database';
 import { CreateRefreshTokenType } from '#root/types/token-types';
 
 class RefreshTokenModel {
     create = async ({
         userId,
-        token,
+        tokenHash,
         userAgent,
         ipAddress,
         expiresAt,
     }: CreateRefreshTokenType) => {
-        const tokenHash = crypto
-            .createHash('sha256')
-            .update(token)
-            .digest('hex');
-
         const dbQuery = `
             INSERT INTO refresh_tokens
             (user_id, token_hash, user_agent, ip_address, expires_at)
@@ -29,6 +22,22 @@ class RefreshTokenModel {
             ipAddress,
             expiresAt,
         ]);
+    };
+
+    revokeToken = async (tokenHash: string) => {
+        const dbQuery = `UPDATE refresh_tokens
+            SET is_revoked = true
+            WHERE token_hash = $1`;
+
+        return await db.none(dbQuery, [tokenHash]);
+    };
+
+    revokeUserTokens = async (userId: string) => {
+        const dbQuery = `UPDATE refresh_tokens
+            SET is_revoked = true
+            WHERE user_id = $1 AND NOT is_revoked`;
+
+        return await db.none(dbQuery, [userId]);
     };
 }
 

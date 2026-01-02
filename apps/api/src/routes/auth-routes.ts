@@ -7,3 +7,4 @@ export const authRouter: Router = express.Router();
 
 authRouter.post(RouterPaths.REGISTER, authContoller.register);
 authRouter.post(RouterPaths.LOGIN, authContoller.login);
+authRouter.post(RouterPaths.LOGOUT, authContoller.logout);

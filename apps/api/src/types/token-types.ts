@@ -1,14 +1,11 @@
-import { SignOptions } from 'jsonwebtoken';
-
-export type CreateAccessTokenData = {
+export type AccessTokenData = {
     userId: string;
     token: string;
-    expiresIn: SignOptions['expiresIn'];
 };
 
 export type CreateRefreshTokenType = {
     userId: string;
-    token: string;
+    tokenHash: string;
     userAgent?: string;
     ipAddress?: string;
     expiresAt: Date;
