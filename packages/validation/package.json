@@ -1,0 +1,22 @@
+{
+    "name": "@repo/validation",
+    "version": "0.0.0",
+    "description": "zod validation",
+    "author": "Ivan Kotov",
+    "license": "ISC",
+    "type": "module",
+    "packageManager": "pnpm@10.24.0",
+    "scripts": {
+        "lint": "eslint",
+        "lint:fix": "eslint --fix",
+        "build": "tsc"
+    },
+    "dependencies": {
+        "zod": "^4.3.4"
+    },
+    "devDependencies": {
+        "@repo/eslint-config": "workspace:*",
+        "@repo/typescript-config": "workspace:*",
+        "eslint": "^9.39.1"
+    }
+}

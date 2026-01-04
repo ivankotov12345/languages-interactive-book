@@ -1,0 +1,17 @@
+{
+    "extends": "@repo/typescript-config/base.json",
+    "compilerOptions": {
+        "lib": ["ES2015"],
+        "module": "preserve",
+        "moduleResolution": "bundler",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+    },
+    "exports": {
+        ".": "./src/index.ts"
+    },
+    "include": ["src/*"],
+    "exclude": ["node_modules", "dist"],
+}
