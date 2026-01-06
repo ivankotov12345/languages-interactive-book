@@ -14,6 +14,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      zod:
+        specifier: ^4.3.4
+        version: 4.3.4
     devDependencies:
       prettier:
         specifier: ^3.6.2
@@ -27,6 +30,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@repo/validation':
+        specifier: workspace:*
+        version: link:../../packages/validation
       bcryptjs:
         specifier: ^3.0.3
         version: 3.0.3
@@ -211,10 +217,6 @@ importers:
         version: 5.9.2
 
   packages/validation:
-    dependencies:
-      zod:
-        specifier: ^4.3.4
-        version: 4.3.4
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*

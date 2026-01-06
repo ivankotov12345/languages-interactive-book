@@ -24,3 +24,8 @@ export const usernameSchema = z
         /^[A-Za-z0-9!@#$&_+\-.:]{5,}$/,
         { message: VALIDATION_MESSAGES.incorrectFormat }
     );
+
+export const nonEmptyStringSchema = z
+    .string()
+    .min(1, { message: VALIDATION_MESSAGES.empty })
+    .max(50, { message: VALIDATION_MESSAGES.maxLength });

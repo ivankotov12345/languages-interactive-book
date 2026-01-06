@@ -18,6 +18,7 @@
         "#middleware": "./src/middleware/*"
     },
     "dependencies": {
+        "@repo/validation": "workspace:*",
         "bcryptjs": "^3.0.3",
         "cors": "^2.8.5",
         "dotenv": "^17.2.3",

@@ -18,7 +18,8 @@ export const errorHandler = (
         statusCode: statusCode,
         name: err.name,
         message: errorMessage,
-        stack: errorStack,
+        ...(err.details && { errors: err.details }), 
+        ...(errorStack && { stack: errorStack }),
     });
 };
 
