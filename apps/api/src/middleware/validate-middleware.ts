@@ -2,43 +2,39 @@ import { NextFunction, Request, Response } from 'express';
 import createError from 'http-errors';
 import { z } from 'zod';
 
-import { emailSchema, nonEmptyStringSchema, passwordSchema } from '@repo/validation';
-
 import { ServerMessages, StatusCodes } from '#constants';
+import { LoginSchema, RegisterSchema } from '#root/types/request-types';
 
-const registerSchema = z.object({
-    email: emailSchema,
-    username: emailSchema,
-    firstName: nonEmptyStringSchema,
-    lastName: nonEmptyStringSchema,
-    password: passwordSchema,
-});
+const formatError = (error: z.ZodError) => error
+    .issues
+    .reduce((acc: Record<string, string>, issue) => {
+        const key = issue.path.map(String).join('.');
+        acc[key] = issue.message;
+        return acc;
+    }, {});
 
-type RegisterSchema = z.output<typeof registerSchema>
+export const validate = <T extends z.ZodType>(schema: T) => {
+    return (req: Request<RegisterSchema | LoginSchema>, _res: Response, next: NextFunction) => {
+        try {
+            const validatedData = schema.parse(req.body);
 
-export const validateRegister = (req: Request<RegisterSchema>, res: Response, next: NextFunction) => {
-    try {
-        const validatedData = registerSchema.parse(req.body);
-        
-        req.body = validatedData;
-        next();
-    } catch (error) {
-        if (error instanceof z.ZodError) {
-            const formattedErrors = error.issues.reduce((acc: Record<string, string>, issue) => {
-                const key = issue.path.map(String).join('.');
-                acc[key] = issue.message;
-                return acc;
-            }, {});
+            req.body = validatedData;
+            next();
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                const formattedErrors = formatError(error);
 
-            const validationError = createError(
-                StatusCodes.BAD_REQUEST,
-                ServerMessages.VALIDATION_FAILED,
-                { details: formattedErrors }
-            );
-    
-            return next(validationError);
+                const validationError = createError(
+                    StatusCodes.BAD_REQUEST,
+                    ServerMessages.VALIDATION_FAILED,
+                    { details: formattedErrors }
+                );
+            
+                return next(validationError);
+            }
+
+            next(error);
         }
-        
-        next(error);
-    }
+    };
 };
+   
