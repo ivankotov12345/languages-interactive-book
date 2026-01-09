@@ -97,6 +97,8 @@ class AuthService {
             expiresAt: expiresAt,
         });
 
+        await refreshTokenModel.cleanupOldTokens(userId);
+
         return {
             user: {
                 id: userId,

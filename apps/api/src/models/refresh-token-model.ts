@@ -39,6 +39,18 @@ class RefreshTokenModel {
 
         return await db.none(dbQuery, [userId]);
     };
+
+    cleanupOldTokens = async (userId: string, maxTokens = 5) => {
+        const dbQuery = `DELETE FROM refresh_tokens
+            WHERE id IN (
+                SELECT id FROM refresh_tokens
+                WHERE user_id = $1
+                ORDER BY created_at DESC
+                OFFSET $2
+            )`;
+        
+        return await db.none(dbQuery, [userId, maxTokens]);
+    };
 }
 
 export const refreshTokenModel = new RefreshTokenModel();
